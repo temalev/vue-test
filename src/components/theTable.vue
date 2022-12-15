@@ -5,9 +5,9 @@
         <div class="headerRightColumn">Телефон</div>
     </div>
     <div class="body">
-        <div v-for="el in 10" :key="el" class="row">
-            <div class="leftColumn">Зина</div>
-            <div class="rightColumn">89105054030</div>
+        <div v-for="man in arrStaff" :key="man" class="row">
+            <div class="leftColumn">{{man.name}}</div>
+            <div class="rightColumn">{{man.phoneNumber}}</div>
     </div>
 
     </div>
@@ -15,7 +15,13 @@
 </template>
 <script>
 export default {
-  name: 'Table'
+  name: 'Table',
+  props: {
+    arrStaff: {
+      type: Array,
+      default: () => []
+    }
+  }
 }
 </script>
 <style scoped>

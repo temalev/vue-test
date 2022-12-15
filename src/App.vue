@@ -2,7 +2,7 @@
   <div id="app">
     <div class="tableContainer">
       <div class="button">Добавить</div>
-      <theTable />
+      <theTable :arrStaff="arrStaff" />
     </div>
 
   </div>
@@ -15,6 +15,27 @@ export default {
   name: 'App',
   components: {
     theTable
+  },
+  data () {
+    return {
+      arrStaff: [
+        {
+          name: 'Зина',
+          phoneNumber: '789105056044',
+          chief: null
+        },
+        {
+          name: 'Петр',
+          phoneNumber: '789105054044',
+          chief: null
+        },
+        {
+          name: 'Семен',
+          phoneNumber: '789105056043',
+          chief: null
+        }
+      ]
+    }
   }
 }
 </script>
