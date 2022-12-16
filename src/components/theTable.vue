@@ -5,9 +5,9 @@
         <div class="headerRightColumn">Телефон</div>
     </div>
     <div class="body">
-        <div v-for="man in arrStaff" :key="man" class="row">
+        <div v-for="(man, idMan) in arrStaff" :key="idMan" class="row">
             <div class="leftColumn">{{man.name}}</div>
-            <div class="rightColumn">{{man.phoneNumber}}</div>
+            <div class="rightColumn">{{man.tel}}</div>
     </div>
 
     </div>

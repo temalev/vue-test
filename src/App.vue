@@ -1,40 +1,61 @@
 <template>
   <div id="app">
     <div class="tableContainer">
-      <div class="button">Добавить</div>
+      <div @click="isModal = true" class="button">Добавить</div>
       <theTable :arrStaff="arrStaff" />
     </div>
-
+    <theModal v-if="isModal" @isModal="isModal = false" @save="save" />
   </div>
 </template>
 
 <script>
 import theTable from './components/theTable.vue'
+import theModal from './components/theModal.vue'
+import { uuid } from 'vue-uuid'
 
 export default {
   name: 'App',
   components: {
-    theTable
+    theTable,
+    theModal
   },
   data () {
     return {
+      isModal: false,
       arrStaff: [
         {
+          uuid: uuid.v4(),
           name: 'Зина',
-          phoneNumber: '789105056044',
+          tel: '789105056044',
           chief: null
         },
         {
+          uuid: uuid.v4(),
           name: 'Петр',
-          phoneNumber: '789105054044',
+          tel: '789105054044',
           chief: null
         },
         {
+          uuid: uuid.v4(),
           name: 'Семен',
-          phoneNumber: '789105056043',
+          tel: '789105056043',
           chief: null
         }
       ]
+    }
+  },
+  mounted () {
+    if (localStorage.arrStaff) {
+      this.arrStaff = JSON.parse(localStorage.arrStaff)
+    }
+  },
+  methods: {
+    save (addStaff) {
+      this.isModal = false
+      addStaff.uuid = uuid.v4()
+      this.arrStaff.push(addStaff)
+
+      localStorage.setItem('arrStaff', JSON.stringify(this.arrStaff))
     }
   }
 }
@@ -48,6 +69,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  position: relative;
 }
 .tableContainer{
   display: flex;
