@@ -2,14 +2,19 @@
   <div id="app">
     <div class="tableContainer">
       <div @click="isModal = true" class="button">Добавить</div>
+      <!-- <table :arrStaff="arrStaff" /> -->
       <theTable :arrStaff="arrStaff" />
     </div>
-    <theModal v-if="isModal" @isModal="isModal = false" @save="save" />
+    <theModal
+      v-if="isModal"
+      @isModal="isModal = false"
+      @save="save"
+      :arrStaff="arrStaff" />
   </div>
 </template>
 
 <script>
-import theTable from './components/theTable.vue'
+import theTable from './components/theTable/app.vue'
 import theModal from './components/theModal.vue'
 import { uuid } from 'vue-uuid'
 
@@ -51,11 +56,20 @@ export default {
   },
   methods: {
     save (addStaff) {
-      this.isModal = false
       addStaff.uuid = uuid.v4()
-      this.arrStaff.push(addStaff)
+      this.isModal = false
+
+      this.arrStaff.find(el => el.uuid === addStaff.chief).subordinate = addStaff
+
+      console.log(this.arrStaff.find(el => el.uuid === addStaff.chief))
+
+      // if (!this.arrStaff.find(el => el.uuid === addStaff.chief).length) {
+      //   this.arrStaff.push(addStaff)
+      // }
 
       localStorage.setItem('arrStaff', JSON.stringify(this.arrStaff))
+
+      console.log(this.arrStaff)
     }
   }
 }

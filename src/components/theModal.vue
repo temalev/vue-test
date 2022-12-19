@@ -4,26 +4,43 @@
         <span class="title">Добавление пользователя</span>
         <div class="btnClose" @click="$emit('isModal')">&times;</div>
     </div>
+
     <form action="">
         <div class="bodyForm">
             <div class="inputRow">
-            <span class="titleInput">Имя</span>
-            <input v-model="addStaff.name" type="text">
-        </div>
+                <span class="titleInput">Имя</span>
+                <input v-model="addStaff.name" type="text">
+            </div>
+
         <div class="inputRow">
             <span class="titleInput">Телефон</span>
             <input v-model="addStaff.tel" maxlength="12" type="tel">
         </div>
+
         <div class="inputRow">
             <span class="titleInput">Начальник</span>
-            <div class="chiefSelect">
-                <span class="selectedChief">нет</span>
-                <div class="btnOpenList">^</div>
+
+            <div class="chiefContainer">
+                <div @click="isList = !isList" class="chiefSelect">
+                    <span class="selectedChief">{{selectedChief ? selectedChief.name : 'Нет'}}</span>
+                    <div class="btnOpenList">^</div>
+
+                </div>
+
+                <div v-if="isList" class="listContainer">
+                    <div @click="selectChief(chief.uuid)"
+                        v-for="(chief, idChief) in arrStaff"
+                        :key="idChief"
+                       class="itemList">
+                        {{chief.name}}
+                    </div>
+                </div>
             </div>
-            <div class="listContainer"></div>
         </div>
         </div>
-        <div class="btnSave" @click="$emit('save', addStaff)">Сохранить</div>
+        <div class="btnSave" @click="$emit('save', addStaff)">
+            Сохранить
+        </div>
     </form>
 
 </div>
@@ -31,12 +48,36 @@
 <script>
 export default {
   name: 'Modal',
+  props: {
+    arrStaff: {
+      type: Array,
+      default: () => []
+    }
+  },
   data () {
     return {
       addStaff: {
         name: null,
         tel: null
-      }
+      },
+      isList: false,
+      selectedChiefUuid: null
+    }
+  },
+
+  computed: {
+    selectedChief () {
+      return this.selectedChiefUuid
+        ? this.arrStaff.find(el => el.uuid === this.selectedChiefUuid)
+        : null
+    }
+  },
+
+  methods: {
+    selectChief (chiefUuid) {
+      this.selectedChiefUuid = chiefUuid
+      this.addStaff.chief = chiefUuid
+      this.isList = false
     }
   }
 }
@@ -125,7 +166,13 @@ input{
 input:focus{
     border: 1px solid rgb(112, 112, 112);
 }
+
+.chiefContainer{
+    position: relative;
+}
+
 .chiefSelect{
+    position: relative;
     width: 282px;
     height: 35px;
     border: 1px solid rgb(218, 218, 218);
@@ -142,6 +189,27 @@ input:focus{
 }
 .chiefSelect:hover{
     border: 1px solid rgb(112, 112, 112);
+}
+
+.listContainer{
+    position: absolute;
+    top: 35px;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid rgb(218, 218, 218);
+    border-top: none !important ;
+    border-radius: 0 0 5px 5px;
+
+}
+.itemList {
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: .2s;
+    text-align: left;
+}
+.itemList:hover{
+    background-color: rgb(239, 239, 239);
 }
 .btnOpenList {
     transform: scaleY(0.6) rotate(180deg);
