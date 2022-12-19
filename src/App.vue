@@ -59,7 +59,19 @@ export default {
       addStaff.uuid = uuid.v4()
       this.isModal = false
 
-      this.arrStaff.find(el => el.uuid === addStaff.chief).subordinate = addStaff
+      const canditate = this.arrStaff.find(el => el.uuid === addStaff.chief)
+
+      if (canditate) {
+        this.arrStaff = this.arrStaff.map(el => el.uuid === addStaff.chief
+          ? ({ ...el, subordinate: canditate.subordinate ? [...canditate.subordinate, addStaff] : [addStaff] })
+          : el)
+      } else {
+        this.arrStaff.push(addStaff)
+      }
+
+      // this.arrStaff.push(addStaff)
+
+      // this.arrStaff.find(el => el.uuid === addStaff.chief).subordinate = [addStaff]
 
       console.log(this.arrStaff.find(el => el.uuid === addStaff.chief))
 

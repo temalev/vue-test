@@ -1,13 +1,20 @@
 <template>
-  <div class="row">
-    <div class="leftColumn">{{man.name}}</div>
-    <div class="rightColumn">{{man.tel}}</div>
+  <div class="main">
+    <div class="row">
+      <div class="leftColumn">{{man.name}}</div>
+      <div class="rightColumn">{{man.tel}}</div>
+    </div>
+    <div v-if="man.subordinate && man.subordinate.length">
+      <row-tree v-for="subMan in man.subordinate" :man="subMan" :key="`_${subMan}`" />
+    </div>
   </div>
 </template>
 
 <script>
+import rowTree from './rowTree.vue'
 export default {
-  name: 'Row',
+  name: 'row',
+  components: { rowTree },
   props: {
     man: {
       type: Object,

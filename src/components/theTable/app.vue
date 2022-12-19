@@ -6,10 +6,11 @@
   </div>
 
   <div class="body">
-    <div v-for="(man, idMan) in arrStaff" :key="idMan" class="rowContainer">
-        <row :man="man" />
-        <row-tree :man="man.subordinate" />
+    <div v-for="(man) in arrStaff" :key="man.uuid" class="rowContainer">
+        <row-tree :man="man" />
+        <!-- <pre>{{ arrStaff }}</pre> -->
     </div>
+
   </div>
 </div>
 </template>
